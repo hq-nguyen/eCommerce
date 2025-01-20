@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { products } from "../assets/assets/frontend_assets/assets";
 
-const ShopContext = createContext();
+export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => { 
 
@@ -20,4 +20,4 @@ const ShopContextProvider = (props) => {
 }
 
 
-export default ShopContext;
+export default ShopContextProvider;
