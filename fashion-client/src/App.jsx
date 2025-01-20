@@ -11,6 +11,7 @@ import Cart from './pages/Cart'
 import PlaceOrder from './pages/PlaceOrder'
 import Navbar from './components/Navbar'
 import Login from './pages/Login'
+import Footer from './components/Footer'
 
 
 const App = () => {
@@ -18,7 +19,6 @@ const App = () => {
     <div>
       <Navbar />
       <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
-
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/collection' element={<Collection />} />
@@ -29,8 +29,8 @@ const App = () => {
           <Route path='/login' element={<Login />} />
           <Route path='/place-order' element={<PlaceOrder />} />
           <Route path='/order' element={<Orders />} />
-
         </Routes>
+        <Footer />
 
       </div>
     </div>
