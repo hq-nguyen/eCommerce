@@ -3,19 +3,64 @@ import { ShopContext } from '../context/ShopContext'
 import { assets } from '../assets/assets/frontend_assets/assets';
 import Title from '../components/Title';
 import ProductItem from '../components/ProductItem';
+import { use } from 'react';
 
 const Collection = () => {
 
   const { products } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [subCategory, setSubCategory] = useState([]);
+
+  const filterCategory = (e) => {
+
+    if (category.includes(e.target.value)) {
+      setCategory(prev => prev.filter(item => item !== e.target.value))
+    } else {
+      setCategory(prev => [...prev, e.target.value])
+    }
+  }
+
+  const filterSubCategory = (e) => {
+
+    if (subCategory.includes(e.target.value)) {
+      setSubCategory(prev => prev.filter(item => item !== e.target.value))
+    } else {
+      setSubCategory(prev => [...prev, e.target.value])
+    }
+  }
+
+  const applyFilter = () => {
+
+    let productsCopy = products.slice();
+    
+    if (subCategory.length > 0) {
+      productsCopy = productsCopy.filter(item => subCategory.includes(item.subCategory))
+    }
+
+    if (category.length > 0) {
+      productsCopy = productsCopy.filter(item => category.includes(item.category))
+    }
+    setFilterProducts(productsCopy);
+
+  }
+
+  // useEffect(() => {
+  //   setFilterProducts(products)
+  // }, [])
 
   useEffect(() => {
-    setFilterProducts(products)
-  }, [])
+    applyFilter();
+  }, [category, subCategory])
+  
+  // useEffect(() => {
+  //   console.log(category);
+  // }, [category])
+
 
   return (
-    <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t'>
+    <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 pb-10 border-t'>
 
       {/* filter Options */}
       <div className='min-w-60'>
@@ -27,13 +72,13 @@ const Collection = () => {
           <p className='mb-3 text-sm font-medium'>CATEGORIES</p>
           <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Men'} /> Men
+              <input className='w-3' type="checkbox" value={'Men'} onChange={filterCategory} /> Men
             </p>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Women'} />Women
+              <input className='w-3' type="checkbox" value={'Women'} onChange={filterCategory} />Women
             </p>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Kids'} />Kids
+              <input className='w-3' type="checkbox" value={'Kids'} onChange={filterCategory} />Kids
             </p>
           </div>
         </div>
@@ -42,13 +87,13 @@ const Collection = () => {
           <p className='mb-3 text-sm font-medium'>TYPE</p>
           <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Topwear'} /> Topwear
+              <input className='w-3' type="checkbox" value={'Topwear'} onChange={filterSubCategory} /> Topwear
             </p>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Bottomwear'} />Bottomwear
+              <input className='w-3' type="checkbox" value={'Bottomwear'} onChange={filterSubCategory} />Bottomwear
             </p>
             <p className='flex gap-2'>
-              <input className='w-3' type="checkbox" value={'Winterwear'} />Winterwear
+              <input className='w-3' type="checkbox" value={'Winterwear'} onChange={filterSubCategory} />Winterwear
             </p>
           </div>
         </div>
@@ -68,11 +113,11 @@ const Collection = () => {
 
         {/*Map products  */}
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
-         {
+          {
             filterProducts.map((item, index) => (
-              <ProductItem key={index} id={item._id}  name={item.name}  price={item.price} image={item.image} />
+              <ProductItem key={index} id={item._id} name={item.name} price={item.price} image={item.image} />
             ))
-         }
+          }
         </div>
       </div>
 
