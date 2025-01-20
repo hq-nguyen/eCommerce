@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Context = () => {
+function LatestConllection() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const Context = () => {
   )
 }
 
-export default Context
+export default LatestConllection
